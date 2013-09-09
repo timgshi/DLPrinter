@@ -1,14 +1,17 @@
+#include <Arduino.h>
+
+#include "SPI.h"
 #include "SoftwareSerial.h"
 #include "Adafruit_Thermal.h"
 
 #include "HEART.h"
+#include "MESSAGES.h"
 
-#include <avr/pgmspace.h>
 #include <Bounce.h>
 #include <LED.h>
 
-const int printer_RX_Pin = 5;  // This is the green wire
-const int printer_TX_Pin = 6;  // This is the yellow wire
+const int kPrinter_RX_Pin = 5;  // This is the green wire
+const int kPrinter_TX_Pin = 6;  // This is the yellow wire
 
 const int kButtonPin = 0;
 const int kLEDPin = 0;
@@ -18,7 +21,7 @@ boolean ledValue = LOW;
 LED led = LED(kLEDPin);
 Bounce button = Bounce(kButtonPin, 100);
 
-Adafruit_Thermal printer(printer_RX_Pin, printer_TX_Pin);
+Adafruit_Thermal printer(kPrinter_RX_Pin, kPrinter_TX_Pin);
 
 void setup() {
   Serial.begin(9600);
@@ -31,7 +34,7 @@ void setup() {
 }
 
 void loop() {
-  
+  buttonHandler();
 }
 
 void buttonHandler() {
