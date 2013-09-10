@@ -12,6 +12,8 @@
 #include <Bounce.h>
 #include <LED.h>
 
+#include <EEPROM.h>
+
 const int kPrinter_RX_Pin = 5;  // This is the green wire
 const int kPrinter_TX_Pin = 6;  // This is the yellow wire
 
@@ -58,6 +60,16 @@ void buttonPressed() {
 
 void printMessage() {
   printer.println("Hello lovely!");
+  // we always store the index at location 0;
+  int index = 0;
+  index = EEPROM.read(0);
+  index++;
+  if (index > MESSAGES_length) {
+   index = 0; 
+  }
+  String message = String(MESSAGES_messages[index]);
+  printer.println(message);
+  EEPROM.write(0, index);
 }
 
 void printSignature() {
