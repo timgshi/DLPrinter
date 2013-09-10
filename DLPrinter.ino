@@ -51,9 +51,11 @@ void buttonHandler() {
 void buttonPressed() {
   led.on();
   printer.wake();
-  printMessage();
-  printSignature();
-  printHeart();
+  if (printer.hasPaper()) {
+    printMessage();
+    printSignature();
+    printHeart();
+  }
   printer.sleep();
   led.off();
 }
