@@ -4,6 +4,8 @@
 #include "SoftwareSerial.h"
 #include "Adafruit_Thermal.h"
 
+#include <avr/pgmspace.h>
+
 #include "HEART.h"
 #include "MESSAGES.h"
 
@@ -48,6 +50,7 @@ void buttonPressed() {
   led.on();
   printer.wake();
   printMessage();
+  printSignature();
   printHeart();
   printer.sleep();
   led.off();
@@ -55,6 +58,10 @@ void buttonPressed() {
 
 void printMessage() {
   printer.println("Hello lovely!");
+}
+
+void printSignature() {
+  printer.println(MESSAGES_signature); 
 }
 
 void printHeart() {
