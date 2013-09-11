@@ -17,8 +17,8 @@
 const int kPrinter_RX_Pin = 5;  // This is the green wire
 const int kPrinter_TX_Pin = 6;  // This is the yellow wire
 
-const int kButtonPin = 0;
-const int kLEDPin = 0;
+const int kButtonPin = 7;
+const int kLEDPin = 13;
 
 boolean ledValue = LOW;
 
@@ -29,8 +29,9 @@ Adafruit_Thermal printer(kPrinter_RX_Pin, kPrinter_TX_Pin);
 
 void setup() {
   Serial.begin(9600);
-  pinMode(7, OUTPUT);
-  digitalWrite(7, LOW);
+  Serial.println("Initialized.");
+  pinMode(kLEDPin, OUTPUT);
+  digitalWrite(kLEDPin, LOW);
   pinMode(kButtonPin, INPUT);
   digitalWrite(kButtonPin, HIGH);
   printer.begin();
@@ -39,11 +40,19 @@ void setup() {
 
 void loop() {
   buttonHandler();
+//  button.update();
+//  if (button.fallingEdge()) {
+//    Serial.println("Button pressed.");
+//    buttonPressed();
+//  }
 }
 
 void buttonHandler() {
   button.update();
   if (button.fallingEdge()) {
+    Serial.println("Button pressed.");
+    
+//    printer.println("Happy Birthday Diana!");
     buttonPressed();
   }
 }
@@ -55,23 +64,51 @@ void buttonPressed() {
     printMessage();
     printSignature();
     printHeart();
+    printer.feed(3);
   }
   printer.sleep();
   led.off();
 }
 
 void printMessage() {
+  printer.boldOn();
   printer.println("Hello lovely!");
-  // we always store the index at location 0;
+  printer.feed();
+//  // we always store the index at location 0;
   int index = 0;
   index = EEPROM.read(0);
   index++;
-  if (index > MESSAGES_length) {
+  if (index >= MESSAGES_length) {
    index = 0; 
   }
-  String message = String(MESSAGES_messages[index]);
-  printer.println(message);
+  switch (index) {
+    case 0:
+      printer.println("I hope you have\n a wonderful day :).");
+      break;
+    case 1:
+      printer.println("You are the\n most beautifulest!");
+      break;
+    case 2:
+      printer.println("Today is going\n to be a great day!");
+      break;
+    case 3:
+      printer.println("Be the #winningnest\n that you can be.");
+      break;
+    case 4:
+      printer.println("Don't forget to\n call 714-878-9551\n for a pick-me-up!");
+      break;
+  }
+////  String message = String(MESSAGES_messages[index]);
+////  printer.println(message);
   EEPROM.write(0, index);
+//  char buf[MESSAGES_max_message_length];
+////  strcpy_P(buf, (char*)pgm_read_word(&(MESSAGES_messages[0])));
+////  Serial.println(buf);
+//  char c;
+//  prog_uchar *str = (prog_uchar *)&MESSAGES_messages[0];
+//   while((c = pgm_read_byte(str++)))
+//     Serial.write(c);
+  printer.boldOff();
 }
 
 void printSignature() {
