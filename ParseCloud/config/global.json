@@ -1,0 +1,11 @@
+{
+    "applications": {
+        "DLPrinter": {
+            "applicationId": "v6xsQ5BhlyCT5iSybnNIxvEXzqnUXwV3X0HMJrFl", 
+            "masterKey": "DopcTBYYeZFloKDHkpnlR90ipBGfnnrGzRfe10gv"
+        }, 
+        "_default": {
+            "link": "DLPrinter"
+        }
+    }
+}
