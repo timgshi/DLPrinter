@@ -16,8 +16,8 @@ app.get('/hello', function(req, res) {
 
 app.get('/timdistance', function(req, res) {
 	var diana_home = new Parse.GeoPoint({latitude: 33.99890, longitude: -118.45945});
-	var query = new Parse.Query(Parse.User);
-	query.equalTo('username', 'timshi');
+	var DLLocation = Parse.Object.extend("DLLocation");
+	var query = new Parse.Query(DLLocation);
 	query.first().then(function(object) {
 		var tim_location = object.get("location");
 		var distance = Math.floor(diana_home.milesTo(tim_location));
