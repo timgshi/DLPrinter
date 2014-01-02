@@ -14,17 +14,18 @@ app.get('/hello', function(req, res) {
   res.render('hello', { message: 'Congrats, you just set up your app!' });
 });
 
-// // Example reading from the request query string of an HTTP get request.
-// app.get('/test', function(req, res) {
-//   // GET http://example.parseapp.com/test?message=hello
-//   res.send(req.query.message);
-// });
-
-// // Example reading from the request body of an HTTP post request.
-// app.post('/test', function(req, res) {
-//   // POST http://example.parseapp.com/test (with request body "message=hello")
-//   res.send(req.body.message);
-// });
+app.get('/timdistance', function(req, res) {
+	var diana_home = new Parse.GeoPoint({latitude: 33.99890, longitude: -118.45945});
+	var query = new Parse.Query(Parse.User);
+	query.equalTo('username', 'timshi');
+	query.first().then(function(object) {
+		var tim_location = object.get("location");
+		var distance = Math.floor(diana_home.milesTo(tim_location));
+		return res.send(distance.toString());
+	}, function(error) {
+		return res.send(500, error);
+	});
+});
 
 // Attach the Express app to Cloud Code.
 app.listen();
